@@ -14,7 +14,7 @@ public class Task {
 
     private String description;
 
-    private ArrayList<String> state = new ArrayList<>();
+    private ArrayList<Integer> state = new ArrayList<>();
 
     private Context context;
 
@@ -36,14 +36,12 @@ public class Task {
         this.title = title;
     }
 
-    public ArrayList<String> getState() {
+    public ArrayList<Integer> getState() {
         return state;
     }
 
-    public ArrayList<String> setState(int idx) {
-        String add = context.getString(stateList[idx]);
-        this.state.add(add);
-
+    public ArrayList<Integer> setState(int idx) {
+       state.add(stateList[idx]);
         return state;
     }
 
