@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -21,8 +23,15 @@ public class MainActivity extends AppCompatActivity {
 
     FirebaseFirestore db;
     RecyclerView taskRecycler;
-    RecyclerView.Adapter tAdapter;
+    TaskAdapter tAdapter;
     RecyclerView.LayoutManager taskLayoutManager;
+    TextView singleTaskTitle;
+    TextView singleTaskDescription;
+    CheckBox singleTaskAvaliable;
+    CheckBox singleTaskAccepted;
+    CheckBox singleTaskAssigned;
+    CheckBox singleTaskFinished;
+    ArrayList<Task> displayTasks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,14 +39,21 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         db = FirebaseFirestore.getInstance();
+        singleTaskTitle = findViewById(R.id.input_FormTitle);
+        singleTaskDescription = findViewById(R.id.input_Description);
+        singleTaskAvaliable = findViewById(R.id.state_CheckAvaliable);
+        singleTaskAccepted = findViewById(R.id.state_CheckAccepted);
+        singleTaskAssigned = findViewById(R.id.state_CheckAssigned);
+        singleTaskFinished = findViewById(R.id.state_CheckFinished);
 
-        taskRecycler = (RecyclerView) findViewById(R.id.task_Recycler);
-        ArrayList<Task> displayTasks = getCollection("Tasks");
-
+        taskRecycler = findViewById(R.id.task_Recycler);
+        displayTasks = getCollection("Tasks");
         taskLayoutManager = new LinearLayoutManager(this);
         taskRecycler.setLayoutManager(taskLayoutManager);
+
         tAdapter = new TaskAdapter(displayTasks);
         taskRecycler.setAdapter(tAdapter);
+
     }
 
 
@@ -63,6 +79,8 @@ public class MainActivity extends AppCompatActivity {
                                 returnList.add(dbTask);
 
                             }
+
+                            tAdapter.setTasks(returnList);
                         }
                     }
                 });

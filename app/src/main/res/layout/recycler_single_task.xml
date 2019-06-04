@@ -19,31 +19,29 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:lineSpacingExtra="8sp"
-                android:text="TextView"
                 android:textSize="18sp"
                 android:typeface="sans" />
 
             <TextView
-                android:id="@+id/view_Description"
+                android:id="@+id/view_State"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-thin"
                 android:lineSpacingExtra="8sp"
-                android:text="TextView"
                 android:textAlignment="textEnd"
                 android:textSize="18sp"
                 android:typeface="sans" />
         </LinearLayout>
 
         <TextView
-            android:id="@+id/view_State"
+            android:id="@+id/view_Description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-thin"
             android:lineSpacingExtra="5sp"
-            android:text="TextView"
             android:textAlignment="center"
-            android:typeface="sans" />
+            android:typeface="sans"
+            android:visibility="invisible" />
     </LinearLayout>
 </LinearLayout>

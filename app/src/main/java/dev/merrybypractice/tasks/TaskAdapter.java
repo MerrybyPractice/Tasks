@@ -42,7 +42,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         this.displayTasks = displayTasks;
     }
 
-    public void setEntries(ArrayList<dev.merrybypractice.tasks.Task> displayTasks) {
+    public void setTasks(ArrayList<dev.merrybypractice.tasks.Task> displayTasks) {
         this.displayTasks = displayTasks;
         notifyDataSetChanged();
     }
