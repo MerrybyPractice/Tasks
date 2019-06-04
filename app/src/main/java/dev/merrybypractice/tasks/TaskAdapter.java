@@ -18,6 +18,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         public TextView viewDescription;
         public TextView viewState;
 
+
+
         public TaskHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -27,8 +29,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         }
 
         public void setTask(dev.merrybypractice.tasks.Task task) {
+            ArrayList state = task.getState();
             this.viewTitle.setText(task.getTitle());
-            this.viewState.setText(task.getState());
+            this.viewState.setText(state.get(0).toString());
             this.viewDescription.setText(task.getDescription());
         }
     }
