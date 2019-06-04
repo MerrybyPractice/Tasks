@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Tasks</string>
+    <string name="new_task_button">Create Task</string>
+    <string name="state_Available">Available</string>
+    <string name="state_Assigned">Assigned</string>
+    <string name="state_Accepted">Accepted</string>
+    <string name="state_Finished">Finished</string>
+    <string name="input_StringTitle">Title of Task</string>
+    <string name="input_StringDescription">Description of Task</string>
+
+
 </resources>

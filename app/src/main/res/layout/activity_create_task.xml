@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/input_Title"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CreateTask">
+
+    <EditText
+        android:id="@+id/input_Description"
+        android:layout_width="298dp"
+        android:layout_height="288dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="312dp"
+        android:layout_marginEnd="8dp"
+        android:ems="10"
+        android:inputType="textMultiLine"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/input_Description"
+        app:layout_constraintStart_toStartOf="@+id/input_Description"
+        app:layout_constraintTop_toBottomOf="@+id/input_Description" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        tools:layout_editor_absoluteX="176dp"
+        tools:layout_editor_absoluteY="50dp" />
+
+    <EditText
+        android:id="@+id/input_Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="@string/input_StringTitle"
+        app:layout_constraintEnd_toEndOf="@+id/input_Description"
+        tools:layout_editor_absoluteY="89dp" />
+
+    <CheckBox
+        android:id="@+id/state_CheckAvaliable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/state_Available"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.785"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/input_Title" />
+
+    <CheckBox
+        android:id="@+id/state_CheckAccepted"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/state_Accepted"
+        app:layout_constraintTop_toBottomOf="@+id/state_CheckAvaliable"
+        tools:layout_editor_absoluteX="176dp" />
+
+    <CheckBox
+        android:id="@+id/state_CheckAssigned"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/state_Assigned"
+        app:layout_constraintTop_toBottomOf="@+id/state_CheckAccepted"
+        tools:layout_editor_absoluteX="235dp" />
+
+    <CheckBox
+        android:id="@+id/state_CheckFinished"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/state_Finished"
+        app:layout_constraintTop_toBottomOf="@+id/state_CheckAssigned"
+        tools:layout_editor_absoluteX="176dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
