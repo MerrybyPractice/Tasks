@@ -3,6 +3,8 @@ package dev.merrybypractice.tasks;
 
 import android.content.Context;
 
+import java.util.ArrayList;
+
 import static android.provider.Settings.System.getString;
 import static androidx.core.content.res.TypedArrayUtils.getText;
 
@@ -12,7 +14,7 @@ public class Task {
 
     private String description;
 
-    private String state;
+    private ArrayList<String> state = new ArrayList<>();
 
     private Context context;
 
@@ -34,13 +36,13 @@ public class Task {
         this.title = title;
     }
 
-    public String getState() {
+    public ArrayList<String> getState() {
         return state;
     }
 
-    public String setState(int idx) {
-        String state = context.getString(stateList[idx]);
-        this.state = state;
+    public ArrayList<String> setState(int idx) {
+        String add = context.getString(stateList[idx]);
+        this.state.add(add);
 
         return state;
     }

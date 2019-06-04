@@ -7,6 +7,6 @@
     <string name="state_Finished">Finished</string>
     <string name="input_StringTitle">Title of Task</string>
     <string name="input_StringDescription">Description of Task</string>
-
+    <string name="create_Header">Fill Out and Submit this form to make a New Task! </string>
 
 </resources>
