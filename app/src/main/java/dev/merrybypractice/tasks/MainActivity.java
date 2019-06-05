@@ -5,24 +5,37 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import com.firebase.ui.auth.AuthUI;
+import com.firebase.ui.auth.IdpResponse;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class MainActivity extends AppCompatActivity {
 
+    //firebase level
     FirebaseFirestore db;
+    FirebaseUser user;
+    private static final int RC_SIGN_IN = 1313;
+
+    //app level
     RecyclerView taskRecycler;
     TaskAdapter tAdapter;
     RecyclerView.LayoutManager taskLayoutManager;
@@ -37,12 +50,19 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Task> displayTasks;
     Context context;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //firebase level
         db = FirebaseFirestore.getInstance();
+        user = FirebaseAuth.getInstance().getCurrentUser();
+
+        setUI();
+
+        //app level
         singleTaskTitle = findViewById(R.id.input_FormTitle);
         singleTaskDescription = findViewById(R.id.input_Description);
         singleTaskAvaliable = findViewById(R.id.state_CheckAvaliable);
@@ -108,6 +128,66 @@ public class MainActivity extends AppCompatActivity {
         return returnList;
     }
 
+    //auth
+
+    public void onLoginClick(View view) {
+        List<AuthUI.IdpConfig> providers = Arrays.asList(
+                new AuthUI.IdpConfig.EmailBuilder().build()
+        );
+        startActivityForResult(
+                AuthUI.getInstance()
+                        .createSignInIntentBuilder()
+                        .setAvailableProviders(providers)
+                        .build(),
+                RC_SIGN_IN);
+    }
+
+    //TODO: edit to remove a button dependent on state
+    private void setUI() {
+        Button login = findViewById(R.id.button_login);
+        Button logout = findViewById(R.id.button_logout);
+        if (user != null) {
+            login.setEnabled(false);
+            logout.setEnabled(true);
+        } else {
+            login.setEnabled(true);
+            logout.setEnabled(false);
+        }
+
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){
+        if(requestCode == RC_SIGN_IN){
+            IdpResponse response = IdpResponse.fromResultIntent(data);
+
+            if(resultCode == RESULT_OK){
+                user = FirebaseAuth.getInstance().getCurrentUser();
+
+                Log.d("MAINACTIVITY", "USER: " + user.getEmail());
+
+            } else {
+                Log.e("MAINACTIVITY", "DID NOT RECIEVE USER EEEKK!");
+            }
+
+            setUI();
+        }
+    }
+
+    public void onLogout(View view){
+        AuthUI.getInstance()
+                .signOut(this)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull com.google.android.gms.tasks.Task<Void> task) {
+                    Log.d("USER", "Successful Logout");
+
+                    }
+                });
+
+        setUI();
+    }
 }
 
 
