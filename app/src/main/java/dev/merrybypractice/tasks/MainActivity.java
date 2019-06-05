@@ -1,5 +1,6 @@
 package dev.merrybypractice.tasks;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,7 +32,10 @@ public class MainActivity extends AppCompatActivity {
     CheckBox singleTaskAccepted;
     CheckBox singleTaskAssigned;
     CheckBox singleTaskFinished;
+    TextView viewTitle;
+    TextView viewState;
     ArrayList<Task> displayTasks;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         singleTaskAccepted = findViewById(R.id.state_CheckAccepted);
         singleTaskAssigned = findViewById(R.id.state_CheckAssigned);
         singleTaskFinished = findViewById(R.id.state_CheckFinished);
+        context = this;
 
         taskRecycler = findViewById(R.id.task_Recycler);
         displayTasks = getCollection("Tasks");
@@ -54,6 +59,22 @@ public class MainActivity extends AppCompatActivity {
         tAdapter = new TaskAdapter(displayTasks);
         taskRecycler.setAdapter(tAdapter);
 
+        this.viewTitle = findViewById(R.id.view_Title);
+        ItemClickSupport.addTo(taskRecycler).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+            @Override
+            public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                Intent intent = new Intent(context, TaskDetail.class);
+                startActivity(intent);
+            }
+        });
+        this.viewState = findViewById(R.id.view_State);
+        ItemClickSupport.addTo(taskRecycler).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+            @Override
+            public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                Intent intent = new Intent(context, TaskDetail.class);
+                startActivity(intent);
+            }
+        });
     }
 
 
