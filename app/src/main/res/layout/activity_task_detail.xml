@@ -6,4 +6,66 @@
     android:layout_height="match_parent"
     tools:context=".TaskDetail">
 
+    <TextView
+        android:id="@+id/create_Title"
+        android:layout_width="170dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/input_StringTitle"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/create_State"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/create_State"
+        android:layout_width="169dp"
+        android:layout_height="35dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/detail_State"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/create_Detail"
+        app:layout_constraintEnd_toEndOf="@+id/create_Title"
+        app:layout_constraintStart_toStartOf="@+id/create_Title" />
+
+    <EditText
+        android:id="@+id/create_Detail"
+        android:layout_width="351dp"
+        android:layout_height="171dp"
+        android:layout_marginBottom="72dp"
+        android:ems="10"
+        android:inputType="textMultiLine"
+        android:text="@string/input_StringDescription"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/create_radioGroup"
+        app:layout_constraintEnd_toEndOf="@+id/create_State"
+        app:layout_constraintHorizontal_bias="0.505"
+        app:layout_constraintStart_toStartOf="@+id/create_State" />
+
+    <RadioGroup
+        android:id="@+id/create_radioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="180dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/create_Detail"
+        app:layout_constraintStart_toStartOf="@+id/create_Detail">
+
+        <RadioButton
+            android:id="@+id/detail_Assigned"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/state_Assigned" />
+
+        <RadioButton
+            android:id="@+id/detail_Finished"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/state_Finished" />
+    </RadioGroup>
 </androidx.constraintlayout.widget.ConstraintLayout>

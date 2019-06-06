@@ -3,7 +3,7 @@ package dev.merrybypractice.tasks;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.CheckBox;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -11,19 +11,17 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.ArrayList;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 
 public class CreateTask extends AppCompatActivity {
     TextView titleView;
-    CheckBox stateAvailable;
-    CheckBox stateAccepted;
-    CheckBox stateAssigned;
-    CheckBox stateFinished;
+    RadioButton stateAssigned;
+    RadioButton stateFinished;
+    TextView taskState;
     TextView descriptionView;
+
 
     FirebaseFirestore db;
 
@@ -35,19 +33,18 @@ public class CreateTask extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
 
-        titleView = findViewById(R.id.input_FormTitle);
-        stateAvailable = findViewById(R.id.state_CheckAvaliable);
-        stateAccepted = findViewById(R.id.state_CheckAccepted);
-        stateAssigned = findViewById(R.id.state_CheckAssigned);
-        stateFinished = findViewById(R.id.state_CheckFinished);
-        descriptionView = findViewById(R.id.input_Description);
+        titleView = findViewById(R.id.create_Title);
+        taskState = findViewById(R.id.create_State);
+        descriptionView = findViewById(R.id.create_Detail);
+        stateAssigned = findViewById(R.id.detail_Assigned);
+        stateFinished = findViewById(R.id.detail_Finished);
 
 
     }
 
 
     public void onNewTaskClick(View view) {
-        Task newTask = createNewTask();
+        Task newTask = createNewTask(view);
 
         db.collection("Tasks")
                 .add(newTask)
@@ -65,34 +62,35 @@ public class CreateTask extends AppCompatActivity {
                 });
     }
 
-    public Task createNewTask() {
+    public Task createNewTask(View view) {
 
         Task newTask = new Task();
         newTask.setTitle(titleView.getText().toString());
         newTask.setDescription(descriptionView.getText().toString());
 
-        ArrayList<Integer> stateArray = new ArrayList<>();
+        boolean checked = ((RadioButton) view).isChecked();
 
-        if (stateAccepted.isChecked()) {
-            stateArray.add(0);
-        }
-        if (stateAssigned.isChecked()) {
-            stateArray.add(1);
-        }
+        switch (view.getId()) {
+            case R.id.create_Assigned:
+                if (checked) {
+                    newTask.setAssigned(true);
+                } else {
+                    newTask.setAssigned(false);
+                }
+                break;
 
-        if (stateAvailable.isChecked()) {
-            stateArray.add(2);
-        }
+            case R.id.create_Finished:
+                if (checked) {
+                    newTask.setFinished(true);
+                } else {
+                    newTask.setFinished(false);
+                }
+                break;
 
-        if (stateFinished.isChecked()) {
-            stateArray.add(3);
-        }
-
-        for (int idx : stateArray) {
-            newTask.setState(idx);
         }
 
         return newTask;
 
     }
 }
+

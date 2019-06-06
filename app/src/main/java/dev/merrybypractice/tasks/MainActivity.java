@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.firebase.ui.auth.AuthUI;
@@ -41,10 +42,8 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView.LayoutManager taskLayoutManager;
     TextView singleTaskTitle;
     TextView singleTaskDescription;
-    CheckBox singleTaskAvaliable;
-    CheckBox singleTaskAccepted;
-    CheckBox singleTaskAssigned;
-    CheckBox singleTaskFinished;
+    RadioButton singleTaskAssigned;
+    RadioButton singleTaskFinished;
     TextView viewTitle;
     TextView viewState;
     ArrayList<Task> displayTasks;
@@ -63,12 +62,10 @@ public class MainActivity extends AppCompatActivity {
         setUI();
 
         //app level
-        singleTaskTitle = findViewById(R.id.input_FormTitle);
-        singleTaskDescription = findViewById(R.id.input_Description);
-        singleTaskAvaliable = findViewById(R.id.state_CheckAvaliable);
-        singleTaskAccepted = findViewById(R.id.state_CheckAccepted);
-        singleTaskAssigned = findViewById(R.id.state_CheckAssigned);
-        singleTaskFinished = findViewById(R.id.state_CheckFinished);
+        singleTaskTitle = findViewById(R.id.create_Title);
+        singleTaskDescription = findViewById(R.id.create_Title);
+        singleTaskAssigned = findViewById(R.id.create_Assigned);
+        singleTaskFinished = findViewById(R.id.create_Finished);
         context = this;
 
         taskRecycler = findViewById(R.id.task_Recycler);
@@ -80,19 +77,57 @@ public class MainActivity extends AppCompatActivity {
         taskRecycler.setAdapter(tAdapter);
 
         this.viewTitle = findViewById(R.id.view_Title);
+        final String searchTitle = (String) viewTitle.getText();
+
+
         ItemClickSupport.addTo(taskRecycler).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
             @Override
             public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                Intent intent = new Intent(context, TaskDetail.class);
-                startActivity(intent);
+
+
+                db.collection("Tasks")
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull com.google.android.gms.tasks.Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    QuerySnapshot snap = task.getResult();
+                                    ArrayList doc = (ArrayList) snap.getDocuments();
+                                    final Task thisTask = (Task) doc.get(doc.indexOf(searchTitle));
+                                    Intent intent = new Intent(context, TaskDetail.class);
+                                    intent.putExtra("Title", thisTask.getTitle());
+                                    intent.putExtra("Description", thisTask.getDescription());
+                                    intent.putExtra("Assigned", thisTask.isAssigned());
+                                    intent.putExtra("Finished", thisTask.isFinished());
+                                    startActivity(intent);
+                                }
+                            }
+                        });
+
             }
         });
+
         this.viewState = findViewById(R.id.view_State);
         ItemClickSupport.addTo(taskRecycler).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
             @Override
             public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                Intent intent = new Intent(context, TaskDetail.class);
-                startActivity(intent);
+                db.collection("Tasks")
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull com.google.android.gms.tasks.Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    QuerySnapshot snap = task.getResult();
+                                    ArrayList doc = (ArrayList) snap.getDocuments();
+                                    final Task thisTask = (Task) doc.get(doc.indexOf(searchTitle));
+                                    Intent intent = new Intent(context, TaskDetail.class);
+                                    intent.putExtra("Title", thisTask.getTitle());
+                                    intent.putExtra("Description", thisTask.getDescription());
+                                    //intent.putExtra("State", thisTask.getState());
+                                    startActivity(intent);
+                                }
+                            }
+                        });
             }
         });
     }
@@ -158,11 +193,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){
-        if(requestCode == RC_SIGN_IN){
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == RC_SIGN_IN) {
             IdpResponse response = IdpResponse.fromResultIntent(data);
 
-            if(resultCode == RESULT_OK){
+            if (resultCode == RESULT_OK) {
                 user = FirebaseAuth.getInstance().getCurrentUser();
 
                 Log.d("MAINACTIVITY", "USER: " + user.getEmail());
@@ -175,13 +210,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void onLogout(View view){
+    public void onLogout(View view) {
         AuthUI.getInstance()
                 .signOut(this)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull com.google.android.gms.tasks.Task<Void> task) {
-                    Log.d("USER", "Successful Logout");
+                        Log.d("USER", "Successful Logout");
 
                     }
                 });

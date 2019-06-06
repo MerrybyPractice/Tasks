@@ -29,9 +29,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         }
 
         public void setTask(dev.merrybypractice.tasks.Task task) {
-            ArrayList state = task.getState();
+            //ArrayList state = task.getState();
             this.viewTitle.setText(task.getTitle());
-            this.viewState.setText(state.get(0).toString());
+            //this.viewState.setText(state.get(0).toString());
         }
     }
 

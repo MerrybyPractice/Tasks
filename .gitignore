@@ -6,7 +6,7 @@
 /build
 /captures
 .externalNativeBuild
-./google-services.json
+google-services.json
 
 # Created by https://www.gitignore.io/api/java,macos,android,androidstudio
 
@@ -215,5 +215,3 @@ Temporary Items
 .vscode
 
 # End of https://www.gitignore.io/api/java,macos,android,androidstudio
-
-google-services.json

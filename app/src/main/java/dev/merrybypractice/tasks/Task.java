@@ -3,30 +3,27 @@ package dev.merrybypractice.tasks;
 
 import android.content.Context;
 
-import java.util.ArrayList;
-
-import static android.provider.Settings.System.getString;
-import static androidx.core.content.res.TypedArrayUtils.getText;
-
 public class Task {
 
     private String title;
 
     private String description;
 
-    private ArrayList<Integer> state = new ArrayList<>();
+    private boolean assigned;
 
-    private Context context;
+    private boolean finished;
 
-    private int[] stateList = new int[]{R.string.state_Accepted, R.string.state_Assigned, R.string.state_Available, R.string.state_Finished};
-
-    public Task(String title, int state, String description){
+    public Task(String title, boolean assigned, boolean finished, String description) {
         this.title = title;
-        this.state = setState(state);
+        this.assigned = assigned;
+        this.finished = finished;
         this.description = description;
     }
 
-    public Task(){};
+    public Task() {
+    }
+
+    ;
 
     public String getTitle() {
         return title;
@@ -34,15 +31,6 @@ public class Task {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public ArrayList<Integer> getState() {
-        return state;
-    }
-
-    public ArrayList<Integer> setState(int idx) {
-       state.add(stateList[idx]);
-        return state;
     }
 
     public String getDescription() {
@@ -53,5 +41,20 @@ public class Task {
         this.description = description;
     }
 
+    public boolean isAssigned() {
+        return assigned;
+    }
+
+    public void setAssigned(boolean assigned) {
+        this.assigned = assigned;
+    }
+
+    public boolean isFinished() {
+        return finished;
+    }
+
+    public void setFinished(boolean finished) {
+        this.finished = finished;
+    }
 
 }
