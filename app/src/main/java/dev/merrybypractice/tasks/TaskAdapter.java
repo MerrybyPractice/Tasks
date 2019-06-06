@@ -3,6 +3,7 @@ package dev.merrybypractice.tasks;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -15,7 +16,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
     public static class TaskHolder extends RecyclerView.ViewHolder {
 
         public TextView viewTitle;
-        public TextView viewDescription;
         public TextView viewState;
 
 
@@ -24,15 +24,14 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
             super(itemView);
 
             this.viewTitle = itemView.findViewById(R.id.view_Title);
-            this.viewDescription = itemView.findViewById(R.id.view_Description);
             this.viewState = itemView.findViewById(R.id.view_State);
+
         }
 
         public void setTask(dev.merrybypractice.tasks.Task task) {
             ArrayList state = task.getState();
             this.viewTitle.setText(task.getTitle());
             this.viewState.setText(state.get(0).toString());
-            this.viewDescription.setText(task.getDescription());
         }
     }
 
@@ -58,6 +57,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
 
         return holder;
     }
+
+
 
     @Override
     public void onBindViewHolder(@NonNull TaskHolder holder, int position) {

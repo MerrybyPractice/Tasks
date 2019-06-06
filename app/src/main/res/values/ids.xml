@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--    This entire class was taken from https://www.littlerobots.nl/blog/Handle-Android-RecyclerView-Clicks/
+    and is implemented here based on the permissions given at that link. Huge shout out to Hugo Visser
+    for tackling the problem of recycler view clickables!!-->
+
+<resources>
+
+    <item name="item_click_support" type="id" />
+
+</resources>
