@@ -1,8 +1,6 @@
 package dev.merrybypractice.tasks;
 
 
-import android.content.Context;
-
 public class Task {
 
     private String title;
@@ -12,6 +10,13 @@ public class Task {
     private boolean assigned;
 
     private boolean finished;
+
+    private String id;
+
+    public Task setID(String id) {
+        this.id = id;
+        return this;
+    }
 
     public Task(String title, boolean assigned, boolean finished, String description) {
         this.title = title;

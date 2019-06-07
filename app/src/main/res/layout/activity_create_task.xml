@@ -82,5 +82,3 @@
                 android:text="@string/state_Finished" />
         </RadioGroup>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>

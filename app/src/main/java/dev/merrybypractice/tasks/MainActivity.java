@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -28,6 +27,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+//DO THIS INSTEAD OF ALL THAT STRING GRABBING BULLSHIT BEFORE THE INTENT:
+
+//Task task = doc.toObject(Task.class).withId(doc.getId());
+
+//public Task setID(String id){
+//this.id=id;
+//return this }
 
 public class MainActivity extends AppCompatActivity {
 
@@ -76,14 +82,10 @@ public class MainActivity extends AppCompatActivity {
         tAdapter = new TaskAdapter(displayTasks);
         taskRecycler.setAdapter(tAdapter);
 
-        this.viewTitle = findViewById(R.id.view_Title);
-        final String searchTitle = (String) viewTitle.getText();
-
 
         ItemClickSupport.addTo(taskRecycler).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
             @Override
             public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-
 
                 db.collection("Tasks")
                         .get()
@@ -92,13 +94,17 @@ public class MainActivity extends AppCompatActivity {
                             public void onComplete(@NonNull com.google.android.gms.tasks.Task<QuerySnapshot> task) {
                                 if (task.isSuccessful()) {
                                     QuerySnapshot snap = task.getResult();
-                                    ArrayList doc = (ArrayList) snap.getDocuments();
-                                    final Task thisTask = (Task) doc.get(doc.indexOf(searchTitle));
+
+                                    String id = "";
+                                    for(DocumentSnapshot doc : snap.getDocuments()){
+    //need to ask about this when possible, really cant move on to next steps until this is resolved.
+                                        Task thisTask = doc.toObject(Task.class).withId(doc.getId());
+
+                                        id = doc.getId();
+                                    }
                                     Intent intent = new Intent(context, TaskDetail.class);
-                                    intent.putExtra("Title", thisTask.getTitle());
-                                    intent.putExtra("Description", thisTask.getDescription());
-                                    intent.putExtra("Assigned", thisTask.isAssigned());
-                                    intent.putExtra("Finished", thisTask.isFinished());
+                                    intent.putExtra("Title", id);
+
                                     startActivity(intent);
                                 }
                             }
@@ -111,6 +117,9 @@ public class MainActivity extends AppCompatActivity {
         ItemClickSupport.addTo(taskRecycler).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
             @Override
             public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                TextView viewTitleInRecycler = findViewById(R.id.view_Title);
+                final String searchTitle = (String) viewTitleInRecycler.getText();
+
                 db.collection("Tasks")
                         .get()
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -203,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("MAINACTIVITY", "USER: " + user.getEmail());
 
             } else {
-                Log.e("MAINACTIVITY", "DID NOT RECIEVE USER EEEKK!");
+                Log.e("MAINACTIVITY", "DID NOT RECEIVE USER EEEKK!");
             }
 
             setUI();

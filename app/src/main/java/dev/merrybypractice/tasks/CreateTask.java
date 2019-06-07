@@ -21,6 +21,7 @@ public class CreateTask extends AppCompatActivity {
     RadioButton stateFinished;
     TextView taskState;
     TextView descriptionView;
+    String id;
 
 
     FirebaseFirestore db;
@@ -51,6 +52,8 @@ public class CreateTask extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
+
+
                         Log.d("TASK", "Added ID: " + documentReference.getId());
                     }
                 })
@@ -92,5 +95,7 @@ public class CreateTask extends AppCompatActivity {
         return newTask;
 
     }
+    
+
 }
 
