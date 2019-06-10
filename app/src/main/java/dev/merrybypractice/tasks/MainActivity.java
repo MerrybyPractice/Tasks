@@ -82,63 +82,6 @@ public class MainActivity extends AppCompatActivity {
         tAdapter = new TaskAdapter(displayTasks);
         taskRecycler.setAdapter(tAdapter);
 
-
-        ItemClickSupport.addTo(taskRecycler).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
-            @Override
-            public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-
-                db.collection("Tasks")
-                        .get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull com.google.android.gms.tasks.Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    QuerySnapshot snap = task.getResult();
-
-                                    String id = "";
-                                    for(DocumentSnapshot doc : snap.getDocuments()){
-    //need to ask about this when possible, really cant move on to next steps until this is resolved.
-                                        Task thisTask = doc.toObject(Task.class).withId(doc.getId());
-
-                                        id = doc.getId();
-                                    }
-                                    Intent intent = new Intent(context, TaskDetail.class);
-                                    intent.putExtra("Title", id);
-
-                                    startActivity(intent);
-                                }
-                            }
-                        });
-
-            }
-        });
-
-        this.viewState = findViewById(R.id.view_State);
-        ItemClickSupport.addTo(taskRecycler).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
-            @Override
-            public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                TextView viewTitleInRecycler = findViewById(R.id.view_Title);
-                final String searchTitle = (String) viewTitleInRecycler.getText();
-
-                db.collection("Tasks")
-                        .get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull com.google.android.gms.tasks.Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    QuerySnapshot snap = task.getResult();
-                                    ArrayList doc = (ArrayList) snap.getDocuments();
-                                    final Task thisTask = (Task) doc.get(doc.indexOf(searchTitle));
-                                    Intent intent = new Intent(context, TaskDetail.class);
-                                    intent.putExtra("Title", thisTask.getTitle());
-                                    intent.putExtra("Description", thisTask.getDescription());
-                                    //intent.putExtra("State", thisTask.getState());
-                                    startActivity(intent);
-                                }
-                            }
-                        });
-            }
-        });
     }
 
 

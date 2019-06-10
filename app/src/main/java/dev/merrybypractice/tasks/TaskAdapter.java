@@ -1,5 +1,7 @@
 package dev.merrybypractice.tasks;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,10 +30,21 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
 
         }
 
-        public void setTask(dev.merrybypractice.tasks.Task task) {
+        public void setTask(final dev.merrybypractice.tasks.Task task) {
             //ArrayList state = task.getState();
             this.viewTitle.setText(task.getTitle());
             //this.viewState.setText(state.get(0).toString());
+
+            this.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Context context = itemView.getContext();
+                    //TODO: Task Details
+                    Intent intent = new Intent(context, TaskDetail.class);
+                    intent.putExtra("taskid", task.getId());
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 

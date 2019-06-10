@@ -11,6 +11,10 @@ public class Task {
 
     private boolean finished;
 
+    public String getId() {
+        return id;
+    }
+
     private String id;
 
     public Task setID(String id) {
