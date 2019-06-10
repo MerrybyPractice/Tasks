@@ -8,13 +8,23 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 public class User {
     String name;
     String email;
     Uri photoUrl;
     String uid;
     String bio;
-    String [] deviceID;
+    ArrayList <String> deviceID = new ArrayList<>();
     Context context;
 
 

@@ -1,14 +1,15 @@
 package dev.merrybypractice.tasks;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
@@ -25,7 +26,7 @@ public class UserProfile extends AppCompatActivity {
     String biography;
     FirebaseUser user;
     FirebaseFirestore db;
-    CollectionReference users;
+    DocumentReference userDoc;
     String id;
     Query thisUser;
 
@@ -39,58 +40,57 @@ public class UserProfile extends AppCompatActivity {
         bio = findViewById(R.id.user_Bio);
         user = FirebaseAuth.getInstance().getCurrentUser();
         db = FirebaseFirestore.getInstance();
-        users = db.collection("Users");
-        id = users.getId();
+        id = user.getUid();
+        userDoc = db.collection("Users").document("F094q5wAxxOaslDIyd5XBhiTdU62");
 
-       /* setText();*/
+        setText();
 
     }
 
     public void onSaveTextClick(View view) {
-        //need to check firebase if document already exsists
-        if (users.whereArrayContains("User Name", user.getDisplayName()).toString().equals(user.getDisplayName())) {
-            //if exsists update
+        setBio();
+        setText();
 
-            users
-                    .document(id)
-                    .set(getText());
+    }
 
-        } else {
 
-            //if no make new
-            User newUser = new User(bio.getText().toString());
-            users
-                    .add(newUser)
-                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                        @Override
-                        public void onSuccess(DocumentReference documentReference) {
+    public void setText() {
 
+        userDoc
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        userName.setText((documentSnapshot.get("name").toString()));
+                        email.setText(documentSnapshot.get("email").toString());
+                        if (documentSnapshot.get("bio") != null) {
+                            bio.setText(documentSnapshot.get("bio").toString());
+                            Log.d("BIO", "BIO FROM DB");
+                        } else {
+                            bio.setText("Update your Bio Here!");
                         }
-                    });
-        }
+
+                    }
+                });
+
 
     }
 
-    public Object getText() {
+    //TODO: STOP IT FROM PULLING A STRINGY QUERY
+    public String setBio() {
 
-        User user = new User(biography);
 
-        this.um = userName.getText().toString();
-        this.em = email.getText().toString();
-        this.biography = bio.getText().toString();
-
-        return user;
-    }
-
-    /*public void setText() {
-        userName.setText(user.getDisplayName());
-        email.setText(user.getEmail());
-        bio.setText(getBio());
-
-    }*/
-
-    public String getBio() {
-        String dbBio = users.whereArrayContains("Bio", users.document("id")).toString();
-        return dbBio;
+        final String userBio;
+        db.collection("Users").document("F094q5wAxxOaslDIyd5XBhiTdU62")
+                .update("bio", bio.getText().toString(),
+                        "name", userName.getText().toString(),
+                        "email", email.getText().toString())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("BIO", "Bio Updated");
+                    }
+                });
+        return bio.getText().toString();
     }
 }

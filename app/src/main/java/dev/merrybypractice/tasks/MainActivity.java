@@ -12,11 +12,14 @@ import android.widget.TextView;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -64,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
         //firebase level
         db = FirebaseFirestore.getInstance();
         user = FirebaseAuth.getInstance().getCurrentUser();
+        final User thisUser = new User("");
 
         setUI();
 
@@ -81,6 +85,32 @@ public class MainActivity extends AppCompatActivity {
 
         tAdapter = new TaskAdapter(displayTasks);
         taskRecycler.setAdapter(tAdapter);
+
+        FirebaseInstanceId instanceIdGetter = FirebaseInstanceId.getInstance();
+
+        instanceIdGetter
+                .getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull com.google.android.gms.tasks.Task<InstanceIdResult> task) {
+                        if(!task.isSuccessful()){
+                            Log.w("MAIN", "Unable to get ID");
+                            return;
+                        }
+
+                        String token = task.getResult().getToken();
+                        thisUser.deviceID.add(token);
+                        db.collection("Users").document(user.getUid())
+                                .update("deviceID", thisUser.deviceID)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d("TOKEN", "Token Updated");
+                                    }
+                                });
+                    }
+                });
+
 
     }
 
