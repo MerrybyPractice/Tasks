@@ -1,11 +1,17 @@
 package dev.merrybypractice.tasks;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.RadioButton;
 import android.widget.TextView;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class TaskDetail extends AppCompatActivity {
 
@@ -15,6 +21,9 @@ public class TaskDetail extends AppCompatActivity {
     RadioButton detailAssigned;
     RadioButton detailFininshed;
     Task thisTask;
+    String id;
+    String state;
+    FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,26 +37,21 @@ public class TaskDetail extends AppCompatActivity {
         detailDescription = findViewById(R.id.create_Detail);
         detailAssigned = findViewById(R.id.detail_Assigned);
         detailFininshed = findViewById(R.id.detail_Finished);
+        db = FirebaseFirestore.getInstance();
 
         Intent intent = getIntent();
-        detailTitle.setText(intent.getStringExtra("Title"));
-        detailDescription.setText(intent.getStringExtra("Description"));
-        Boolean assigned = (intent.getBooleanExtra("Assigned", false));
-        Boolean finished = (intent.getBooleanExtra("Finished", false));
-
-        String state;
-
-        if(assigned){
-            //Add Assigned to State
-        } else {
-            //Add Avaliable to State
-        }
-
-        if(finished){
-            //Add Finished to State
-        } else {
-            //Add Unfinished to state
-        }
+        id = intent.getStringExtra("taskid");
+        state = intent.getStringExtra("State");
+        db.collection("Tasks").document(id)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        detailTitle.setText(documentSnapshot.get("title").toString());
+                        detailDescription.setText(documentSnapshot.get("description").toString());
+                        detailState.setText(state);
+                    }
+                });
 
     }
 

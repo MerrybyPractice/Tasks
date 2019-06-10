@@ -7,9 +7,9 @@ public class Task {
 
     private String description;
 
-    private boolean assigned;
+    private boolean assigned = false;
 
-    private boolean finished;
+    private boolean finished = false;
 
     public String getId() {
         return id;
@@ -22,17 +22,17 @@ public class Task {
         return this;
     }
 
-    public Task(String title, boolean assigned, boolean finished, String description) {
+    public Task(String title, boolean assigned, boolean finished, String description, String id) {
         this.title = title;
         this.assigned = assigned;
         this.finished = finished;
         this.description = description;
+        setID(id);
     }
 
     public Task() {
     }
 
-    ;
 
     public String getTitle() {
         return title;
@@ -42,28 +42,28 @@ public class Task {
         this.title = title;
     }
 
-    public String getDescription() {
-        return description;
-    }
 
     public void setDescription(String description) {
         this.description = description;
     }
 
-    public boolean isAssigned() {
-        return assigned;
-    }
 
     public void setAssigned(boolean assigned) {
         this.assigned = assigned;
     }
 
-    public boolean isFinished() {
-        return finished;
-    }
 
     public void setFinished(boolean finished) {
         this.finished = finished;
+    }
+
+    public boolean getAssigned() {
+
+        return assigned;
+    }
+
+    public boolean getFinished() {
+        return finished;
     }
 
 }

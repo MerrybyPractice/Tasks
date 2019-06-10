@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -15,11 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
 
+
+
     public static class TaskHolder extends RecyclerView.ViewHolder {
 
         public TextView viewTitle;
         public TextView viewState;
-
 
 
         public TaskHolder(@NonNull View itemView) {
@@ -31,9 +31,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         }
 
         public void setTask(final dev.merrybypractice.tasks.Task task) {
-            //ArrayList state = task.getState();
+
             this.viewTitle.setText(task.getTitle());
-            //this.viewState.setText(state.get(0).toString());
+            this.viewState.setText(setState(task));
 
             this.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -42,6 +42,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
                     //TODO: Task Details
                     Intent intent = new Intent(context, TaskDetail.class);
                     intent.putExtra("taskid", task.getId());
+                    intent.putExtra("State", setState(task));
                     context.startActivity(intent);
                 }
             });
@@ -72,7 +73,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
     }
 
 
-
     @Override
     public void onBindViewHolder(@NonNull TaskHolder holder, int position) {
         dev.merrybypractice.tasks.Task task = displayTasks.get(position);
@@ -84,4 +84,30 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
     public int getItemCount() {
         return displayTasks.size();
     }
+
+
+    public static String setState(Task task) {
+
+        String state = " ";
+
+        if (task.getAssigned()) {
+            state += "Assigned";
+        } else {
+            //Add Avaliable to State
+            state += "Avaliable";
+        }
+
+        if (task.getFinished()) {
+            //Add Finished to State
+            state += " Finished";
+        } else {
+            //Add Unfinished to state
+            state += " Unfinished";
+        }
+
+        return state;
+    }
+
+    ;
+
 }

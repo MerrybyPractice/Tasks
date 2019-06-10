@@ -41,7 +41,7 @@ public class UserProfile extends AppCompatActivity {
         user = FirebaseAuth.getInstance().getCurrentUser();
         db = FirebaseFirestore.getInstance();
         id = user.getUid();
-        userDoc = db.collection("Users").document("F094q5wAxxOaslDIyd5XBhiTdU62");
+        userDoc = db.collection("Users").document(id);
 
         setText();
 
@@ -81,7 +81,7 @@ public class UserProfile extends AppCompatActivity {
 
 
         final String userBio;
-        db.collection("Users").document("F094q5wAxxOaslDIyd5XBhiTdU62")
+        db.collection("Users").document(id)
                 .update("bio", bio.getText().toString(),
                         "name", userName.getText().toString(),
                         "email", email.getText().toString())
