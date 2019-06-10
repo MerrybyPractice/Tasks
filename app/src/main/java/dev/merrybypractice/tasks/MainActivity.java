@@ -6,17 +6,20 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,6 +30,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+//DO THIS INSTEAD OF ALL THAT STRING GRABBING BULLSHIT BEFORE THE INTENT:
+
+//Task task = doc.toObject(Task.class).withId(doc.getId());
+
+//public Task setID(String id){
+//this.id=id;
+//return this }
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,10 +51,8 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView.LayoutManager taskLayoutManager;
     TextView singleTaskTitle;
     TextView singleTaskDescription;
-    CheckBox singleTaskAvaliable;
-    CheckBox singleTaskAccepted;
-    CheckBox singleTaskAssigned;
-    CheckBox singleTaskFinished;
+    RadioButton singleTaskAssigned;
+    RadioButton singleTaskFinished;
     TextView viewTitle;
     TextView viewState;
     ArrayList<Task> displayTasks;
@@ -59,16 +67,15 @@ public class MainActivity extends AppCompatActivity {
         //firebase level
         db = FirebaseFirestore.getInstance();
         user = FirebaseAuth.getInstance().getCurrentUser();
+        final User thisUser = new User("");
 
         setUI();
 
         //app level
-        singleTaskTitle = findViewById(R.id.input_FormTitle);
-        singleTaskDescription = findViewById(R.id.input_Description);
-        singleTaskAvaliable = findViewById(R.id.state_CheckAvaliable);
-        singleTaskAccepted = findViewById(R.id.state_CheckAccepted);
-        singleTaskAssigned = findViewById(R.id.state_CheckAssigned);
-        singleTaskFinished = findViewById(R.id.state_CheckFinished);
+        singleTaskTitle = findViewById(R.id.create_Title);
+        singleTaskDescription = findViewById(R.id.create_Title);
+        singleTaskAssigned = findViewById(R.id.create_Assigned);
+        singleTaskFinished = findViewById(R.id.create_Finished);
         context = this;
 
         taskRecycler = findViewById(R.id.task_Recycler);
@@ -79,22 +86,32 @@ public class MainActivity extends AppCompatActivity {
         tAdapter = new TaskAdapter(displayTasks);
         taskRecycler.setAdapter(tAdapter);
 
-        this.viewTitle = findViewById(R.id.view_Title);
-        ItemClickSupport.addTo(taskRecycler).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
-            @Override
-            public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                Intent intent = new Intent(context, TaskDetail.class);
-                startActivity(intent);
-            }
-        });
-        this.viewState = findViewById(R.id.view_State);
-        ItemClickSupport.addTo(taskRecycler).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
-            @Override
-            public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                Intent intent = new Intent(context, TaskDetail.class);
-                startActivity(intent);
-            }
-        });
+        FirebaseInstanceId instanceIdGetter = FirebaseInstanceId.getInstance();
+
+        instanceIdGetter
+                .getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull com.google.android.gms.tasks.Task<InstanceIdResult> task) {
+                        if(!task.isSuccessful()){
+                            Log.w("MAIN", "Unable to get ID");
+                            return;
+                        }
+
+                        String token = task.getResult().getToken();
+                        thisUser.deviceID.add(token);
+                        db.collection("Users").document(user.getUid())
+                                .update("deviceID", thisUser.deviceID)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d("TOKEN", "Token Updated");
+                                    }
+                                });
+                    }
+                });
+
+
     }
 
 
@@ -158,35 +175,40 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){
-        if(requestCode == RC_SIGN_IN){
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == RC_SIGN_IN) {
             IdpResponse response = IdpResponse.fromResultIntent(data);
 
-            if(resultCode == RESULT_OK){
+            if (resultCode == RESULT_OK) {
                 user = FirebaseAuth.getInstance().getCurrentUser();
 
                 Log.d("MAINACTIVITY", "USER: " + user.getEmail());
 
             } else {
-                Log.e("MAINACTIVITY", "DID NOT RECIEVE USER EEEKK!");
+                Log.e("MAINACTIVITY", "DID NOT RECEIVE USER EEEKK!");
             }
 
             setUI();
         }
     }
 
-    public void onLogout(View view){
+    public void onLogout(View view) {
         AuthUI.getInstance()
                 .signOut(this)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull com.google.android.gms.tasks.Task<Void> task) {
-                    Log.d("USER", "Successful Logout");
+                        Log.d("USER", "Successful Logout");
 
                     }
                 });
 
         setUI();
+    }
+
+    public void onProfileClick(View view) {
+        Intent intent = new Intent(this, UserProfile.class);
+        startActivity(intent);
     }
 }
 

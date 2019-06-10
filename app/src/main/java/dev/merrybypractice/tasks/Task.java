@@ -1,32 +1,38 @@
 package dev.merrybypractice.tasks;
 
 
-import android.content.Context;
-
-import java.util.ArrayList;
-
-import static android.provider.Settings.System.getString;
-import static androidx.core.content.res.TypedArrayUtils.getText;
-
 public class Task {
 
     private String title;
 
     private String description;
 
-    private ArrayList<Integer> state = new ArrayList<>();
+    private boolean assigned = false;
 
-    private Context context;
+    private boolean finished = false;
 
-    private int[] stateList = new int[]{R.string.state_Accepted, R.string.state_Assigned, R.string.state_Available, R.string.state_Finished};
-
-    public Task(String title, int state, String description){
-        this.title = title;
-        this.state = setState(state);
-        this.description = description;
+    public String getId() {
+        return id;
     }
 
-    public Task(){};
+    private String id;
+
+    public Task setID(String id) {
+        this.id = id;
+        return this;
+    }
+
+    public Task(String title, boolean assigned, boolean finished, String description, String id) {
+        this.title = title;
+        this.assigned = assigned;
+        this.finished = finished;
+        this.description = description;
+        setID(id);
+    }
+
+    public Task() {
+    }
+
 
     public String getTitle() {
         return title;
@@ -36,22 +42,28 @@ public class Task {
         this.title = title;
     }
 
-    public ArrayList<Integer> getState() {
-        return state;
-    }
-
-    public ArrayList<Integer> setState(int idx) {
-       state.add(stateList[idx]);
-        return state;
-    }
-
-    public String getDescription() {
-        return description;
-    }
 
     public void setDescription(String description) {
         this.description = description;
     }
 
+
+    public void setAssigned(boolean assigned) {
+        this.assigned = assigned;
+    }
+
+
+    public void setFinished(boolean finished) {
+        this.finished = finished;
+    }
+
+    public boolean getAssigned() {
+
+        return assigned;
+    }
+
+    public boolean getFinished() {
+        return finished;
+    }
 
 }
