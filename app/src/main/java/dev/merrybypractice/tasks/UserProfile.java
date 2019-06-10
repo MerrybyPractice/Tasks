@@ -42,7 +42,7 @@ public class UserProfile extends AppCompatActivity {
         users = db.collection("Users");
         id = users.getId();
 
-        setText();
+       /* setText();*/
 
     }
 
@@ -54,7 +54,6 @@ public class UserProfile extends AppCompatActivity {
             users
                     .document(id)
                     .set(getText());
-
 
         } else {
 
@@ -70,7 +69,6 @@ public class UserProfile extends AppCompatActivity {
                     });
         }
 
-
     }
 
     public Object getText() {
@@ -84,12 +82,12 @@ public class UserProfile extends AppCompatActivity {
         return user;
     }
 
-    public void setText() {
+    /*public void setText() {
         userName.setText(user.getDisplayName());
         email.setText(user.getEmail());
         bio.setText(getBio());
 
-    }
+    }*/
 
     public String getBio() {
         String dbBio = users.whereArrayContains("Bio", users.document("id")).toString();

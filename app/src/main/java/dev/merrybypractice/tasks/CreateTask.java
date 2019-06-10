@@ -45,14 +45,14 @@ public class CreateTask extends AppCompatActivity {
 
 
     public void onNewTaskClick(View view) {
-        Task newTask = createNewTask(view);
+        final Task newTask = createNewTask(view);
 
         db.collection("Tasks")
                 .add(newTask)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-
+                        newTask.setID(documentReference.getId());
 
                         Log.d("TASK", "Added ID: " + documentReference.getId());
                     }
@@ -95,7 +95,7 @@ public class CreateTask extends AppCompatActivity {
         return newTask;
 
     }
-    
+
 
 }
 

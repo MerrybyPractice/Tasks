@@ -175,6 +175,11 @@ public class MainActivity extends AppCompatActivity {
 
         setUI();
     }
+
+    public void onProfileClick(View view) {
+        Intent intent = new Intent(this, UserProfile.class);
+        startActivity(intent);
+    }
 }
 
 

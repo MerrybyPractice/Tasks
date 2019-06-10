@@ -10,6 +10,9 @@
     <string name="input_StringDescription">Description of Task</string>
     <string name="create_Header">Fill Out and Submit this form to make a New Task! </string>
     <string name="detail_State"> State of Task </string>
+    <string name="main_Login">Login</string>
+    <string name="main_Logout">Logout</string>
+    <string name="main_profile">User Profile</string>
 
 
 </resources>

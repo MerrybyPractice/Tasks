@@ -14,6 +14,7 @@ public class User {
     Uri photoUrl;
     String uid;
     String bio;
+    String [] deviceID;
     Context context;
 
 
