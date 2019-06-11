@@ -5,6 +5,10 @@ public class Task {
 
     private String title;
 
+    public String getDescription() {
+        return description;
+    }
+
     private String description;
 
     private boolean assigned = false;

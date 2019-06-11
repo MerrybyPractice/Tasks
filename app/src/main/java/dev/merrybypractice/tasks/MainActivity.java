@@ -133,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
                             for (DocumentSnapshot doc : snap.getDocuments()) {
                                 Log.d("TASK", "ID: " + doc.getId());
                                 Task dbTask = doc.toObject(Task.class);
+                                dbTask.setID(doc.getId());
 
                                 returnList.add(dbTask);
 

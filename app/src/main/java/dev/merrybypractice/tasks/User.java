@@ -28,10 +28,10 @@ public class User {
             this.photoUrl = user.getPhotoUrl();
             this.uid = user.getUid();
             this.bio = bio;
-        } else {
-            Intent intent = new Intent(context, MainActivity.class);
-            context.startActivity(intent);
-        }
+//        } else {
+//            Intent intent = new Intent(context, MainActivity.class);
+//            context.startActivity(intent);
+//        }
     }
 
 
