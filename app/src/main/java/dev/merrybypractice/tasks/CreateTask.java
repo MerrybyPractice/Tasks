@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -24,7 +26,7 @@ public class CreateTask extends AppCompatActivity {
     TextView taskState;
     TextView descriptionView;
     String id;
-
+    FirebaseUser user;
 
     FirebaseFirestore db;
 
@@ -42,6 +44,8 @@ public class CreateTask extends AppCompatActivity {
         stateAssigned = findViewById(R.id.detail_Assigned);
         stateFinished = findViewById(R.id.detail_Finished);
         stateGroup = findViewById(R.id.create_radioGroup);
+        user = FirebaseAuth.getInstance().getCurrentUser();
+
 
 
     }
@@ -79,7 +83,8 @@ public class CreateTask extends AppCompatActivity {
         switch (checked) {
             case R.id.create_Assigned:
 
-                newTask.setAssigned(true);
+
+                newTask.setAssigned(true, user.getUid());
 
                 break;
 

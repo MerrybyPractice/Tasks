@@ -30,13 +30,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-//DO THIS INSTEAD OF ALL THAT STRING GRABBING BULLSHIT BEFORE THE INTENT:
-
-//Task task = doc.toObject(Task.class).withId(doc.getId());
-
-//public Task setID(String id){
-//this.id=id;
-//return this }
 
 public class MainActivity extends AppCompatActivity {
 
@@ -57,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     TextView viewState;
     ArrayList<Task> displayTasks;
     Context context;
+    User thisUser = new User();
 
 
     @Override
@@ -66,10 +60,8 @@ public class MainActivity extends AppCompatActivity {
 
         //firebase level
         db = FirebaseFirestore.getInstance();
-        user = FirebaseAuth.getInstance().getCurrentUser();
-        final User thisUser = new User("");
 
-        setUI();
+        getCurrentUser();
 
         //app level
         singleTaskTitle = findViewById(R.id.create_Title);
@@ -87,29 +79,31 @@ public class MainActivity extends AppCompatActivity {
         taskRecycler.setAdapter(tAdapter);
 
         FirebaseInstanceId instanceIdGetter = FirebaseInstanceId.getInstance();
+        if(user != null){
 
-        instanceIdGetter
-                .getInstanceId()
-                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-                    @Override
-                    public void onComplete(@NonNull com.google.android.gms.tasks.Task<InstanceIdResult> task) {
-                        if(!task.isSuccessful()){
-                            Log.w("MAIN", "Unable to get ID");
-                            return;
+            instanceIdGetter
+                    .getInstanceId()
+                    .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                        @Override
+                        public void onComplete(@NonNull com.google.android.gms.tasks.Task<InstanceIdResult> task) {
+                            if(!task.isSuccessful()){
+                                Log.w("MAIN", "Unable to get ID");
+                                return;
+                            }
+
+                            String token = task.getResult().getToken();
+                            thisUser.deviceID.add(token);
+                            db.collection("Users").document(user.getUid())
+                                    .update("deviceID", thisUser.deviceID)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Log.d("TOKEN", "Token Updated");
+                                        }
+                                    });
                         }
-
-                        String token = task.getResult().getToken();
-                        thisUser.deviceID.add(token);
-                        db.collection("Users").document(user.getUid())
-                                .update("deviceID", thisUser.deviceID)
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        Log.d("TOKEN", "Token Updated");
-                                    }
-                                });
-                    }
-                });
+                    });
+        }
 
 
     }
@@ -210,6 +204,18 @@ public class MainActivity extends AppCompatActivity {
     public void onProfileClick(View view) {
         Intent intent = new Intent(this, UserProfile.class);
         startActivity(intent);
+    }
+
+    public User getCurrentUser(){
+        if(user != null){
+            user = FirebaseAuth.getInstance().getCurrentUser();
+            thisUser.uid = user.getUid();
+            return thisUser;
+        } else {
+            return null;
+        }
+
+
     }
 }
 
