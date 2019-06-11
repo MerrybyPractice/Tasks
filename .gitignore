@@ -9,6 +9,7 @@
 google-services.json
 
 node_modules/
+.eslintrc.json
 
 # Created by https://www.gitignore.io/api/java,macos,android,androidstudio
 
