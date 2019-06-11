@@ -15,6 +15,7 @@ exports.addOnChange = functions.firestore
 .document("/Tasks/{taskId}")
 .onWrite((snap, context) =>{
   const task = snap.data(); 
+  const user = task.claimed; 
   task.message = "A change was Made" + Date; 
 
   const payload = {
@@ -28,9 +29,10 @@ exports.addOnChange = functions.firestore
   .firestore()
   .collection("Users")
   .get()
+  // eslint-disable-next-line promise/always-return
   .then(Users =>{
-     const deviceId = []
-     deviceId.push(Users..deviceId)
+     const deviceId = [];
+     deviceId.push(Users.user.deviceId);
      deviceId.forEach(element => {
        admin.messaging().sendToDevice(element, payload);
      });
