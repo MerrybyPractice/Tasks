@@ -14,7 +14,7 @@ exports.addMessage = functions.https.onRequest(async(req, res) => {
 exports.addOnChange = functions.firestore
 .document("/Tasks/{taskId}")
 .onWrite((change, context) =>{
-  const task = context.params.document; 
+  const task = document
   const user = task.claimed; 
   task.message = "A change was Made" + Date; 
 

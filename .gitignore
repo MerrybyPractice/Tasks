@@ -8,6 +8,8 @@
 .externalNativeBuild
 google-services.json
 
+node_modules/
+
 # Created by https://www.gitignore.io/api/java,macos,android,androidstudio
 
 ### Android ###
