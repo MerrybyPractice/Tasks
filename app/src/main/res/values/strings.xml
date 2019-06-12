@@ -13,6 +13,10 @@
     <string name="main_Login">Login</string>
     <string name="main_Logout">Logout</string>
     <string name="main_profile">User Profile</string>
+    <string name="profile_UserName">Username</string>
+    <string name="provile_Email">Email</string>
+    <string name="profile_bio">About You!</string>
+    <string name="profile_save">Save</string>
 
 
 </resources>

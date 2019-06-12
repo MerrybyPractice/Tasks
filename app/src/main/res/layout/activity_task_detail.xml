@@ -13,6 +13,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
+        android:labelFor="@+id/create_Title"
         android:text="@string/input_StringTitle"
         android:textAlignment="center"
         app:layout_constraintBottom_toTopOf="@+id/create_State"
@@ -25,6 +26,7 @@
         android:layout_width="169dp"
         android:layout_height="35dp"
         android:layout_marginBottom="8dp"
+        android:labelFor="@+id/create_State"
         android:text="@string/detail_State"
         android:textAlignment="center"
         app:layout_constraintBottom_toTopOf="@+id/create_Detail"
@@ -37,8 +39,9 @@
         android:layout_height="171dp"
         android:layout_marginBottom="72dp"
         android:ems="10"
+        android:hint="@string/input_StringDescription"
         android:inputType="textMultiLine"
-        android:text="@string/input_StringDescription"
+        android:labelFor="@+id/create_Detail"
         android:textAlignment="center"
         app:layout_constraintBottom_toTopOf="@+id/create_radioGroup"
         app:layout_constraintEnd_toEndOf="@+id/create_State"
@@ -50,6 +53,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="180dp"
+        android:focusable="auto"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/create_Detail"
         app:layout_constraintStart_toStartOf="@+id/create_Detail">
@@ -59,6 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:labelFor="@+id/detail_Assigned"
             android:text="@string/state_Assigned" />
 
         <RadioButton
@@ -66,6 +71,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:labelFor="@+id/detail_Finished"
             android:text="@string/state_Finished" />
     </RadioGroup>
 </androidx.constraintlayout.widget.ConstraintLayout>
