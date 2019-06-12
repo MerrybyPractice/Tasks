@@ -4,10 +4,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -19,10 +22,11 @@ public class CreateTask extends AppCompatActivity {
     TextView titleView;
     RadioButton stateAssigned;
     RadioButton stateFinished;
+    RadioGroup stateGroup;
     TextView taskState;
     TextView descriptionView;
     String id;
-
+    FirebaseUser user;
 
     FirebaseFirestore db;
 
@@ -39,6 +43,9 @@ public class CreateTask extends AppCompatActivity {
         descriptionView = findViewById(R.id.create_Detail);
         stateAssigned = findViewById(R.id.detail_Assigned);
         stateFinished = findViewById(R.id.detail_Finished);
+        stateGroup = findViewById(R.id.create_radioGroup);
+        user = FirebaseAuth.getInstance().getCurrentUser();
+
 
 
     }
@@ -71,23 +78,20 @@ public class CreateTask extends AppCompatActivity {
         newTask.setTitle(titleView.getText().toString());
         newTask.setDescription(descriptionView.getText().toString());
 
-        boolean checked = ((RadioButton) view).isChecked();
+        int checked = stateGroup.getCheckedRadioButtonId();
 
-        switch (view.getId()) {
+        switch (checked) {
             case R.id.create_Assigned:
-                if (checked) {
-                    newTask.setAssigned(true);
-                } else {
-                    newTask.setAssigned(false);
-                }
+
+
+                newTask.setAssigned(true, user.getUid());
+
                 break;
 
             case R.id.create_Finished:
-                if (checked) {
-                    newTask.setFinished(true);
-                } else {
-                    newTask.setFinished(false);
-                }
+
+                newTask.setFinished(true);
+
                 break;
 
         }

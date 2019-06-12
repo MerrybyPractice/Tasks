@@ -1,7 +1,6 @@
 package dev.merrybypractice.tasks;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -16,7 +15,7 @@ public class User {
     Uri photoUrl;
     String uid;
     String bio;
-    ArrayList <String> deviceID = new ArrayList<>();
+    ArrayList<String> deviceID = new ArrayList<>();
     Context context;
 
 
@@ -28,13 +27,17 @@ public class User {
             this.photoUrl = user.getPhotoUrl();
             this.uid = user.getUid();
             this.bio = bio;
-        } else {
-            Intent intent = new Intent(context, MainActivity.class);
-            context.startActivity(intent);
+//        } else {
+//            Intent intent = new Intent(context, MainActivity.class);
+//            context.startActivity(intent);
+//        }
         }
+
+
+
     }
 
-
+    User(){}
 }
 
 

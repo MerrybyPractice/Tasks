@@ -1,11 +1,28 @@
 package dev.merrybypractice.tasks;
 
 
+import java.util.ArrayList;
+
 public class Task {
 
     private String title;
 
+    public String getDescription() {
+        return description;
+    }
+
     private String description;
+
+
+    public ArrayList<String> getClaimed() {
+        return claimed;
+    }
+
+    public void setClaimed(ArrayList<String> claimed) {
+        this.claimed = claimed;
+    }
+
+    private ArrayList<String> claimed;
 
     private boolean assigned = false;
 
@@ -48,8 +65,10 @@ public class Task {
     }
 
 
-    public void setAssigned(boolean assigned) {
+    public void setAssigned(boolean assigned, String userid) {
         this.assigned = assigned;
+
+        claimed.add(userid);
     }
 
 
