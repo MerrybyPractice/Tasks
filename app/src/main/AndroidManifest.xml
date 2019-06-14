@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".UserProfile"></activity>
+        <activity android:name=".MyTasks"></activity>
+        <activity android:name=".UserProfile" />
         <activity android:name=".TaskDetail" />
         <activity android:name=".CreateTask" />
         <activity android:name=".MainActivity">
@@ -19,7 +20,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

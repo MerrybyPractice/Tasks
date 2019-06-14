@@ -30,7 +30,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
 
         }
 
-        public void setTask(final dev.merrybypractice.tasks.Task task) {
+        public void setTask(final Task task) {
 
             this.viewTitle.setText(task.getTitle());
             this.viewState.setText(setState(task));
@@ -51,11 +51,11 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
 
     private ArrayList<Task> displayTasks;
 
-    public TaskAdapter(ArrayList<dev.merrybypractice.tasks.Task> displayTasks) {
+    public TaskAdapter(ArrayList<Task> displayTasks) {
         this.displayTasks = displayTasks;
     }
 
-    public void setTasks(ArrayList<dev.merrybypractice.tasks.Task> displayTasks) {
+    public void setTasks(ArrayList<Task> displayTasks) {
         this.displayTasks = displayTasks;
         notifyDataSetChanged();
     }
@@ -75,7 +75,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull TaskHolder holder, int position) {
-        dev.merrybypractice.tasks.Task task = displayTasks.get(position);
+        Task task = displayTasks.get(position);
 
         holder.setTask(task);
     }

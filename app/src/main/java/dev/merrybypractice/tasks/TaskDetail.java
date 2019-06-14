@@ -1,14 +1,14 @@
 package dev.merrybypractice.tasks;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import dev.merrybypractice.tasks.R;
+import dev.merrybypractice.tasks.Task;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;

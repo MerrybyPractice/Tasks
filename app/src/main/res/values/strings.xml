@@ -17,6 +17,7 @@
     <string name="provile_Email">Email</string>
     <string name="profile_bio">About You!</string>
     <string name="profile_save">Save</string>
+    <string name="user_MyTasks">My Claimed Tasks</string>
 
 
 </resources>

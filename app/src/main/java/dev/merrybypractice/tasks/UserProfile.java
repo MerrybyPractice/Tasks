@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -13,7 +14,10 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
+import java.util.ArrayList;
+
 import androidx.appcompat.app.AppCompatActivity;
+import dev.merrybypractice.tasks.R;
 
 
 public class UserProfile extends AppCompatActivity {
@@ -29,6 +33,7 @@ public class UserProfile extends AppCompatActivity {
     DocumentReference userDoc;
     String id;
     Query thisUser;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

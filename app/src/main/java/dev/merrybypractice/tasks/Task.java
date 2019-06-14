@@ -13,16 +13,7 @@ public class Task {
 
     private String description;
 
-
-    public ArrayList<String> getClaimed() {
-        return claimed;
-    }
-
-    public void setClaimed(ArrayList<String> claimed) {
-        this.claimed = claimed;
-    }
-
-    private ArrayList<String> claimed;
+    private User user = new User();
 
     private boolean assigned = false;
 
@@ -39,7 +30,7 @@ public class Task {
         return this;
     }
 
-    public Task(String title, boolean assigned, boolean finished, String description, String id) {
+    public Task(String title, boolean assigned, boolean finished, String description, String id, ArrayList<String> claimed) {
         this.title = title;
         this.assigned = assigned;
         this.finished = finished;
@@ -65,10 +56,10 @@ public class Task {
     }
 
 
-    public void setAssigned(boolean assigned, String userid) {
+    public void setAssigned(boolean assigned, Task task) {
         this.assigned = assigned;
 
-        claimed.add(userid);
+        user.tasks.add(task);
     }
 
 
